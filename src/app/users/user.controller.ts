@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Param, Put } from '@nestjs/common';
-import { PrismaService } from './prisma.service';
-import { CreateUserBody } from './create.user.body';
+import { PrismaService } from '../../prisma/prisma.service';
+import { CreateUserBody } from './dto/create.user.body';
 import { NotFoundException } from '@nestjs/common/exceptions';
 
 @Controller('user')

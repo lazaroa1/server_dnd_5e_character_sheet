@@ -1,13 +1,13 @@
 import { Test } from '@nestjs/testing';
-import { creationRandomUser } from './utils/faker.factory';
+import { creationRandomUser } from '../../helpers/faker.factory';
 import { faker } from '@faker-js/faker';
 
 import { UserController } from './user.controller';
-import { PrismaService } from './prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 
 const USER = creationRandomUser();
 
-describe('UserController', () => {
+describe('User', () => {
   let userController: UserController;
   let prismaService: PrismaService;
 
