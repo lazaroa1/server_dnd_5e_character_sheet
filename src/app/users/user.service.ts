@@ -38,7 +38,6 @@ export class UserService {
   async update(id: string, user: CreateUserBody) {
     await this.findUser(id);
     const { email, password, name } = user;
-
     const newData: CreateUserBody = {
       email,
       password,

@@ -18,6 +18,6 @@ export class UserController {
 
   @Put(':id')
   async update(@Param('id') id: string, @Body() body: CreateUserBody) {
-    return this.update(id, body);
+    return this.user.update(id, body);
   }
 }
