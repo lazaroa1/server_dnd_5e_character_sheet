@@ -4,21 +4,24 @@ import { faker } from '@faker-js/faker';
 
 import { UserController } from './user.controller';
 import { PrismaService } from '../../prisma/prisma.service';
+import { UserService } from './user.service';
 
 const USER = creationRandomUser();
 
 describe('User', () => {
   let userController: UserController;
   let prismaService: PrismaService;
+  let userService: UserService;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
       controllers: [UserController],
-      providers: [PrismaService],
+      providers: [PrismaService, UserService],
     }).compile();
 
     prismaService = moduleRef.get<PrismaService>(PrismaService);
     userController = moduleRef.get<UserController>(UserController);
+    userService = moduleRef.get<UserService>(UserService);
   });
 
   afterEach(async () => {

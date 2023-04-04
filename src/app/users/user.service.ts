@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { CreateUserBody } from './dto/create.user.body';
 import { NotFoundException } from '@nestjs/common/exceptions';
 
