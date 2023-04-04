@@ -11,7 +11,6 @@ const USER = creationRandomUser();
 describe('User', () => {
   let userController: UserController;
   let prismaService: PrismaService;
-  let userService: UserService;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -21,7 +20,6 @@ describe('User', () => {
 
     prismaService = moduleRef.get<PrismaService>(PrismaService);
     userController = moduleRef.get<UserController>(UserController);
-    userService = moduleRef.get<UserService>(UserService);
   });
 
   afterEach(async () => {
