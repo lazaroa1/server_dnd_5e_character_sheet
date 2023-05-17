@@ -5,13 +5,12 @@ import { MailerService } from '@nestjs-modules/mailer';
 export class EmailService {
   constructor(private readonly mailerService: MailerService) {}
 
-  sendEmail(): void {
-    this.mailerService.sendMail({
-      to: 'lazaroalves36@gmail.com',
-      from: 'lazaro.a1@hotmail.com',
+  async sendEmail(): Promise<void> {
+    await this.mailerService.sendMail({
+      to: 'to@email.com',
+      from: 'from@email.com',
       subject: 'Test Email',
-      text: 'This is a test email from NestJS',
-      html: '<b>TESTE DE ENVIO DE EMAIL</b>',
+      template: 'test',
     });
   }
 }

@@ -6,7 +6,7 @@ export class EmailController {
   constructor(private readonly emailService: EmailService) {}
 
   @Get()
-  send(): void {
+  async send(): Promise<void> {
     return this.emailService.sendEmail();
   }
 }
