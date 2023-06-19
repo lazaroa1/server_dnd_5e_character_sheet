@@ -8,6 +8,8 @@ import { UserService } from './app/users/user.service';
 import { EmailController } from './app/email/email.controller';
 import { EmailService } from './app/email/email.service';
 import { EmailIsUnique } from './app/users/dto/validations/validation.email';
+import { UserPasswordService } from './app/userPassword/user.password.service';
+import { UserPasswordController } from './app/userPassword/user.password.controller';
 
 @Module({
   imports: [
@@ -26,7 +28,13 @@ import { EmailIsUnique } from './app/users/dto/validations/validation.email';
       },
     }),
   ],
-  controllers: [UserController, EmailController],
-  providers: [PrismaService, UserService, EmailService, EmailIsUnique],
+  controllers: [UserController, EmailController, UserPasswordController],
+  providers: [
+    PrismaService,
+    UserService,
+    EmailService,
+    EmailIsUnique,
+    UserPasswordService,
+  ],
 })
 export class AppModule {}
