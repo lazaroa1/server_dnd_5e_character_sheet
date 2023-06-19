@@ -11,6 +11,7 @@ export class EmailService {
       from: 'from@email.com',
       subject: 'Test Email',
       template: 'test',
+      context: {},
     });
   }
 }

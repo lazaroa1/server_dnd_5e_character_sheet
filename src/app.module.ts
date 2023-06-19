@@ -23,9 +23,6 @@ import { EmailIsUnique } from './app/users/dto/validations/validation.email';
       template: {
         dir: join(__dirname, 'mails'),
         adapter: new HandlebarsAdapter(),
-        options: {
-          strict: true,
-        },
       },
     }),
   ],
