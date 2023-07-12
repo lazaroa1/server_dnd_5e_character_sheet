@@ -1,39 +1,56 @@
-import { Test } from '@nestjs/testing';
-import { creationRandomUser } from 'src/helpers/faker.factory';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { UserPasswordController } from '../userPassword/user.password.controller';
-import { UserPasswordService } from '../userPassword/user.password.service';
-import { async } from 'rxjs';
+import { faker } from '@faker-js/faker';
+import { creationRandomUser } from '../../helpers/faker.factory';
+import { PrismaService } from '../../prisma/prisma.service';
+import { UserPasswordService } from './user.password.service';
+import { NotFoundException } from '@nestjs/common';
 
 const USER = creationRandomUser();
 
 describe('Password', () => {
-  let userPasswordController: UserPasswordController;
+  let userPasswordService: UserPasswordService;
   let prismaService: PrismaService;
 
   beforeEach(async () => {
-    const moduleRef = await Test.createTestingModule({
-      controllers: [UserPasswordController],
-      providers: [PrismaService, UserPasswordService],
-    }).compile();
-
-    prismaService = moduleRef.get<PrismaService>(PrismaService);
-    userPasswordController = moduleRef.get<UserPasswordController>(
-      UserPasswordController,
-    );
+    prismaService = new PrismaService();
+    userPasswordService = new UserPasswordService(prismaService, {});
   });
 
-  afterEach(async () => {
-    const user = await prismaService.user.findFirst({
-      where: { id: 1 },
+  it('should update the password for a valid user', async () => {
+    const newPassword = faker.internet.password();
+
+    prismaService.user.findUnique = jest.fn().mockResolvedValue(USER);
+    prismaService.user.update = jest.fn();
+
+    const resultNewPassword = await userPasswordService.newPassword(USER.id, {
+      newPassword,
     });
 
-    if (user) {
-      await prismaService.user.delete({ where: { id: 1 } });
-    }
+    expect(prismaService.user.findUnique).toHaveBeenCalledWith({
+      where: { id: USER.id },
+    });
+
+    expect(prismaService.user.update).toHaveBeenCalledWith({
+      where: { id: USER.id },
+      data: { ...USER, password: newPassword },
+    });
+
+    expect(resultNewPassword).toEqual('New password updated!');
   });
 
-  afterEach(async () => {
-    await prismaService.$disconnect();
+  it('should throw NotFoundException for an invalid user', async () => {
+    const newPassword = faker.internet.password();
+
+    prismaService.user.findUnique = jest.fn().mockResolvedValue(null);
+    prismaService.user.update = jest.fn();
+
+    await expect(
+      userPasswordService.newPassword(USER.id, { newPassword }),
+    ).rejects.toThrowError(NotFoundException);
+
+    expect(prismaService.user.findUnique).toHaveBeenCalledWith({
+      where: { id: USER.id },
+    });
+
+    expect(prismaService.user.update).not.toHaveBeenCalled();
   });
 });
