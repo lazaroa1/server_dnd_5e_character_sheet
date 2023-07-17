@@ -1,18 +1,64 @@
 import { faker } from '@faker-js/faker';
+import { NotFoundException } from '@nestjs/common';
 import { creationRandomUser } from '../../helpers/faker.factory';
 import { PrismaService } from '../../prisma/prisma.service';
 import { UserPasswordService } from './user.password.service';
-import { NotFoundException } from '@nestjs/common';
 
 const USER = creationRandomUser();
+
+class MailerServiceMock {
+  sendMail = jest.fn();
+}
 
 describe('Password', () => {
   let userPasswordService: UserPasswordService;
   let prismaService: PrismaService;
+  let mailerService: MailerServiceMock;
 
   beforeEach(async () => {
     prismaService = new PrismaService();
-    userPasswordService = new UserPasswordService(prismaService, {});
+    mailerService = new MailerServiceMock();
+    userPasswordService = new UserPasswordService(prismaService, mailerService);
+  });
+
+  it('should send email when user is found', async () => {
+    const userMock = { ...USER, createdAt: new Date(), updatedAt: new Date() };
+
+    jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(userMock);
+
+    await userPasswordService.solicitationNewPassword({
+      email: userMock.email,
+    });
+
+    expect(mailerService.sendMail).toHaveBeenCalledWith({
+      to: expect.any(String),
+      from: expect.any(String),
+      subject: expect.any(String),
+      template: expect.any(String),
+      context: expect.any(Object),
+    });
+  });
+
+  it('shoud return "Email sent!" after sending email', async () => {
+    const userMock = { ...USER, createdAt: new Date(), updatedAt: new Date() };
+
+    jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(userMock);
+
+    const result = await userPasswordService.solicitationNewPassword({
+      email: userMock.email,
+    });
+
+    expect(result).toBe('Email sent!');
+  });
+
+  it('should throw NotFoundException if user is not found', async () => {
+    const userMock = { ...USER, createdAt: new Date(), updatedAt: new Date() };
+
+    jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(null);
+
+    await expect(
+      userPasswordService.solicitationNewPassword({ email: userMock.email }),
+    ).rejects.toThrowError(NotFoundException);
   });
 
   it('should update the password for a valid user', async () => {

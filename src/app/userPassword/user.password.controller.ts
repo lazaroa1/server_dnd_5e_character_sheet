@@ -5,10 +5,10 @@ import { UserPasswordService } from './user.password.service';
 export class UserPasswordController {
   constructor(private readonly userPassword: UserPasswordService) {}
 
-  // @Put('solicitation')
-  // async solicitationNewPassword(@Body() email: { email: string }) {
-  //   return this.userPassword.solicitationNewPassword(email);
-  // }
+  @Put('solicitation')
+  async solicitationNewPassword(@Body() email: { email: string }) {
+    return this.userPassword.solicitationNewPassword(email);
+  }
 
   @Put('new-password/:userId')
   async newPassword(
