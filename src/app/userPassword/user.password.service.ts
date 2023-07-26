@@ -2,14 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { PrismaService } from '../../prisma/prisma.service';
 
-interface MailerServiceTest {
-  sendMail: () => void;
-}
 @Injectable()
 export class UserPasswordService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly mailerService: MailerService | MailerServiceTest, // private readonly mailerService: MailerService,
+    private readonly mailerService: MailerService,
   ) {}
 
   async solicitationNewPassword({ email }) {
@@ -24,7 +21,7 @@ export class UserPasswordService {
       from: 'from@email.com',
       subject: 'Test Email',
       template: 'test',
-      context: {},
+      context: { user },
     });
 
     return 'Email sent!';

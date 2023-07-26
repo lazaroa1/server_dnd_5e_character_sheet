@@ -5,8 +5,6 @@ import { join } from 'path';
 import { PrismaService } from './prisma/prisma.service';
 import { UserController } from './app/users/user.controller';
 import { UserService } from './app/users/user.service';
-import { EmailController } from './app/email/email.controller';
-import { EmailService } from './app/email/email.service';
 import { EmailIsUnique } from './app/users/dto/validations/validation.email';
 import { UserPasswordService } from './app/userPassword/user.password.service';
 import { UserPasswordController } from './app/userPassword/user.password.controller';
@@ -28,13 +26,7 @@ import { UserPasswordController } from './app/userPassword/user.password.control
       },
     }),
   ],
-  controllers: [UserController, EmailController, UserPasswordController],
-  providers: [
-    PrismaService,
-    UserService,
-    EmailService,
-    EmailIsUnique,
-    UserPasswordService,
-  ],
+  controllers: [UserController, UserPasswordController],
+  providers: [PrismaService, UserService, EmailIsUnique, UserPasswordService],
 })
 export class AppModule {}
