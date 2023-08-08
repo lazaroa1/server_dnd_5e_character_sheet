@@ -13,12 +13,21 @@
       rel='stylesheet'
     />
     <style>
-      .container-email { background-color: #DCDCDC; width: 600px; height: 400px;
-      display: flex; flex-direction: column; justify-content: center;
-      align-items: center;} .title {color: #AF2525; font-size: 22px; text-align:
-      center; margin: 0; padding: 0; font-family: 'Besley', serif;}
-      .container-email-content { width: 500px; height: 300px; background-color:
-      #fff; border-radius: 20px;}
+      .container-email { background-color: #DCDCDC; width: 100%; height: 100%;
+      display: flex; flex-direction: column; justify-content: space-evenly;
+      align-items: center; padding: 20px;} .title {color: #AF2525; font-size:
+      26px; text-align: center; margin: 0; padding: 0; font-family: Besley;}
+      .container-email-content { width: 70%; height: 60%; background-color:
+      #fff; border-radius: 16px; display: flex; flex-direction: column;
+      justify-content: space-around; align-items: center; font-family: Roboto;
+      color: #000;} .user-name { font-size: 16px; font-weight: 400; }
+      .info-email { font-size: 14px; font-weight: 400; } .ignore-message {
+      text-align: center; font-size: 14px; font-weight: 400;} .button-container
+      { display: flex; width: 204px; height: 42px; padding: 0px 48px 0px 50px;
+      justify-content: center; align-items: center; flex-shrink: 0;
+      border-radius: 8px; background: #AF2525; } .button-text{ color: #FFF;
+      text-align: center; font-family: Roboto; font-size: 16px; font-style:
+      normal; font-weight: 700; }
     </style>
   </head>
   <body>
@@ -28,16 +37,16 @@
         <h1 class='title'>Character sheet</h1>
       </div>
       <div class='container-email-content'>
-        <div>
-          <p>Hi USER,</p>
-          <p>We have received a request to reset your password on our website.
-            If you have made this request, please click the button below to
-            create a new password:</p>
+        <div class='alert-container'>
+          <p class='user-name'>Hi USER,</p>
+          <p class='info-email'>We have received a request to reset your
+            password on our website. If you have made this request, please click
+            the button below to create a new password:</p>
         </div>
-        <div>
-          <a>New password</a>
+        <div class='button-container'>
+          <a class='button-text'>New password</a>
         </div>
-        <div>
+        <div class='ignore-message'>
           <p>If you did not request a password change, please ignore this email.
             No changes will be made to your account.</p>
         </div>
