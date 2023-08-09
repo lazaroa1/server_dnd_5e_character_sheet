@@ -8,7 +8,7 @@ export class UserController {
 
   @Post()
   async create(@Body() body: CreateUserBody) {
-    return this.user.creat(body);
+    return this.user.create(body);
   }
 
   @Get(':id')
